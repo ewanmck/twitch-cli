@@ -16,7 +16,7 @@ print("""
 """)
 
 # create instance of twitch API
-twitch = Twitch('xutsqhnjyy8eghpn1hr4ltsepsfwp9', 'd0cumj14p1eg10vt6f2ftzewc0l8k8')
+twitch = Twitch('xutsqhnjyy8eghpn1hr4ltsepsfwp9', 'n6fznyfruz3mwzkahayuyrtei4haiy')
 twitch.authenticate_app([])
 
 # get ID of user
@@ -85,7 +85,7 @@ for i in range(len(streamers)):
     print(str(i+1)+ ") " + streamers[i] + " is playing " + games[i] + "\n")
 
 choice = input("What stream would you like to watch? (press 'x' for no choice)\n")
-if type(choice) != int:
+if type(int(choice)) != int:
     print("okay cool")
 else:
-    os.system('./twitch ' + streamers[int(choice)-1])
+    os.system('./twitch-helper ' + streamers[int(choice)-1])
