@@ -5,6 +5,24 @@ import pprint
 import os
 import env
 
+class Streamer:
+    def __init__(self, name, game, viewers):
+        self.name = name
+        self.game = game
+        self.viewers = viewers
+
+class color:
+   PURPLE = '\033[95m'
+   CYAN = '\033[96m'
+   DARKCYAN = '\033[36m'
+   BLUE = '\033[94m'
+   GREEN = '\033[92m'
+   YELLOW = '\033[93m'
+   RED = '\033[91m'
+   BOLD = '\033[1m'
+   UNDERLINE = '\033[4m'
+   END = '\033[0m'
+
 os.system('clear')
 
 print("""
@@ -66,27 +84,46 @@ while total != 0:
 #pprint.pprint(twitch.get_streams(user_id=channels))
 num_channels = len(channels)
 streamers = []
+names = []
 games = []
+viewers = []
 while num_channels != 0:
     if num_channels < 100:
         live_channels = twitch.get_streams(user_id=channels)['data']
-        streamers.extend(list(map(lambda x: x['user_name'], live_channels)))
-        games.extend(list(map(lambda x: x['game_name'], live_channels)))
+        names = list(map(lambda x: x['user_name'], live_channels))
+        games = list(map(lambda x: x['game_name'], live_channels))
+        viewers = list(map(lambda x: x['viewer_count'], live_channels))
+        for i in range(len(names)):
+            streamers.append(Streamer(names[i], games[i], viewers[i]))
         num_channels = 0
     else:
         curr_channels = channels[100:]
         live_channels = twitch.get_streams(user_id=curr_channels)['data']
-        streamers.extend(list(map(lambda x: x['user_name'], live_channels)))
-        games.extend(list(map(lambda x: x['game_name'], live_channels)))
+        names = list(map(lambda x: x['user_name'], live_channels))
+        games = list(map(lambda x: x['game_name'], live_channels))
+        viewers = list(map(lambda x: x['viewer_count'], live_channels))
+        for i in range(len(names)):
+            streamers.append(Streamer(names[i], games[i], viewers[i]))
         channels = channels[:100]
         num_channels = num_channels - 100
 
+streamers.sort(key=lambda x: x.viewers, reverse=True)
+streamer_count = 1
 
-for i in range(len(streamers)):
-    print(str(i+1)+ ") " + streamers[i] + " is playing " + games[i] + "\n")
+for streamer in streamers:
+    name = color.BOLD + streamer.name + color.END
+    game = color.BOLD + streamer.game + color.END
+    viewers = color.BOLD + str(streamer.viewers) + color.END
+
+    print(str(streamer_count) + ") " + name + " is playing " + game)
+    print("\t" + viewers + " viewers\n")
+    streamer_count += 1
 
 choice = input("What stream would you like to watch? (press 'x' for no choice)\n")
 if choice == 'x':
+    os.system('clear')
     print("okay cool")
 else:
-    os.system('./twitch-helper ' + streamers[int(choice)-1] + ' &')
+    os.system('./twitch-helper ' + streamers[int(choice)-1].name + ' &')
+    os.system('clear')
+    print("Stream is loading, enjoy!")
