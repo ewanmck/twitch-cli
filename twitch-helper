@@ -3,4 +3,4 @@
 STREAM=$1
 TWITCH="twitch.tv/$STREAM" 
 
-streamlink --twitch-low-latency --twitch-disable-ads --hls-segment-threads 3 ${TWITCH} best 
+streamlink -Q --twitch-low-latency --twitch-disable-ads --hls-segment-threads 3 ${TWITCH} best &

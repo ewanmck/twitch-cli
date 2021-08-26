@@ -24,10 +24,10 @@ twitch.authenticate_app([])
 user_info = twitch.get_users(logins=[env.user])
 user_id = user_info['data'][0]['id']
 
-target_scope = [AuthScope.BITS_READ]
-auth = UserAuthenticator(twitch, target_scope, force_verify=False)
+# target_scope = [AuthScope.BITS_READ]
+# auth = UserAuthenticator(twitch, target_scope, force_verify=False)
 # this will open your default browser and prompt you with the twitch verification website
-token, refresh_token = auth.authenticate()
+# token, refresh_token = auth.authenticate()
 # add User authentication
 #twitch.set_user_authentication(token, target_scope, refresh_token)
 
@@ -86,7 +86,7 @@ for i in range(len(streamers)):
     print(str(i+1)+ ") " + streamers[i] + " is playing " + games[i] + "\n")
 
 choice = input("What stream would you like to watch? (press 'x' for no choice)\n")
-if type(int(choice)) != int:
+if choice == 'x':
     print("okay cool")
 else:
-    os.system('./twitch-helper ' + streamers[int(choice)-1])
+    os.system('./twitch-helper ' + streamers[int(choice)-1] + ' &')
