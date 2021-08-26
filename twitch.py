@@ -3,6 +3,7 @@ from twitchAPI.oauth import UserAuthenticator
 from twitchAPI.types import AuthScope
 import pprint
 import os
+import env
 
 os.system('clear')
 
@@ -16,11 +17,11 @@ print("""
 """)
 
 # create instance of twitch API
-twitch = Twitch('xutsqhnjyy8eghpn1hr4ltsepsfwp9', 'n6fznyfruz3mwzkahayuyrtei4haiy')
+twitch = Twitch(env.app_id, env.app_secret)
 twitch.authenticate_app([])
 
 # get ID of user
-user_info = twitch.get_users(logins=['justeuuan'])
+user_info = twitch.get_users(logins=[env.user])
 user_id = user_info['data'][0]['id']
 
 target_scope = [AuthScope.BITS_READ]
