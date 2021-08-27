@@ -102,14 +102,14 @@ while num_channels != 0:
             streamers.append(Streamer(names[i], games[i], viewers[i]))
         num_channels = 0
     else:
-        curr_channels = channels[100:]
+        curr_channels = channels[:100]
         live_channels = twitch.get_streams(user_id=curr_channels)['data']
         names = list(map(lambda x: x['user_name'], live_channels))
         games = list(map(lambda x: x['game_name'], live_channels))
         viewers = list(map(lambda x: x['viewer_count'], live_channels))
         for i in range(len(names)):
             streamers.append(Streamer(names[i], games[i], viewers[i]))
-        channels = channels[:100]
+        channels = channels[100:]
         num_channels = num_channels - 100
 
 streamers.sort(key=lambda x: x.viewers, reverse=True)
