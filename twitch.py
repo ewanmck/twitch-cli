@@ -69,7 +69,10 @@ if total > 100:
 else:
     total = 0
 
-page = follows['pagination']['cursor']
+pprint.pprint(follows)
+
+page = ''
+
 while total != 0:
     if total < 100:
         follows = twitch.get_users_follows(after=page, from_id=user_id, first=total)
