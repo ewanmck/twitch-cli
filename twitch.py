@@ -23,16 +23,21 @@ class color:
    UNDERLINE = '\033[4m'
    END = '\033[0m'
 
-os.system('clear')
-
-print("""
+class Header:
+    def show():
+        print("""
 ████████╗██╗    ██╗██╗████████╗ ██████╗██╗  ██╗       ██████╗██╗     ██╗
 ╚══██╔══╝██║    ██║██║╚══██╔══╝██╔════╝██║  ██║      ██╔════╝██║     ██║
    ██║   ██║ █╗ ██║██║   ██║   ██║     ███████║█████╗██║     ██║     ██║
    ██║   ██║███╗██║██║   ██║   ██║     ██╔══██║╚════╝██║     ██║     ██║
    ██║   ╚███╔███╔╝██║   ██║   ╚██████╗██║  ██║      ╚██████╗███████╗██║
-   ╚═╝    ╚══╝╚══╝ ╚═╝   ╚═╝    ╚═════╝╚═╝  ╚═╝       ╚═════╝╚══════╝╚═╝
+   ╚═╝    ╚══╝╚══╝ ╚═╝   ╚═╝    ╚═════╝╚═╝  ╚═╝       ╚═════╝╚══════╝╚═╝\n
 """)
+
+os.system('clear')
+
+Header.show()
+print("Gathering streams...")
 
 # create instance of twitch API
 twitch = Twitch(env.app_id, env.app_secret)
@@ -110,6 +115,9 @@ while num_channels != 0:
 streamers.sort(key=lambda x: x.viewers, reverse=True)
 streamer_count = 1
 
+os.system("clear")
+Header.show()
+
 for streamer in streamers:
     name = color.BOLD + streamer.name + color.END
     game = color.BOLD + streamer.game + color.END
@@ -124,6 +132,6 @@ if choice == 'x':
     os.system('clear')
     print("okay cool")
 else:
-    os.system('./twitch-helper ' + streamers[int(choice)-1].name + ' &')
+    os.system(env.path + 'twitch-helper ' + streamers[int(choice)-1].name + ' &')
     os.system('clear')
     print("Stream is loading, enjoy!")
