@@ -69,8 +69,6 @@ if total > 100:
 else:
     total = 0
 
-pprint.pprint(follows)
-
 page = ''
 
 while total != 0:
