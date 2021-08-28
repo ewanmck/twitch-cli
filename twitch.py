@@ -64,12 +64,16 @@ channels = []
 for channel in follows['data']:
     channels.append(channel['to_id'])
 
+# not sure why this is necessary but it is
+page = ''
+if total > 100:
+    page = follows['pagination']['cursor']
+
 if total > 100:
     total = total-100
 else:
     total = 0
 
-page = ''
 
 while total != 0:
     if total < 100:
@@ -81,7 +85,6 @@ while total != 0:
         page = follows['pagination']['cursor']
     for channel in follows['data']:
         channels.append(channel['to_id'])
-
 
 
 #pprint.pprint(follows)
@@ -104,6 +107,7 @@ while num_channels != 0:
         num_channels = 0
     else:
         curr_channels = channels[:100]
+        # pprint.pprint(channels)
         live_channels = twitch.get_streams(user_id=curr_channels)['data']
         names = list(map(lambda x: x['user_name'], live_channels))
         games = list(map(lambda x: x['game_name'], live_channels))
